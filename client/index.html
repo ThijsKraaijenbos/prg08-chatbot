@@ -9,13 +9,30 @@
 
 </head>
 <body>
-    <textarea id="input"></textarea>
-    <button type="submit" id="submit">Submit</button>
+    <div class="grid grid-cols-3 h-full mt-6">
+<!--Middle section -->
+        <section class="col-start-2 flex flex-col items-center justify-end">
+            <div class="h-64 flex justify-center items-center flex-col">
+                <div class="speech-bubble w-100 invisible" id="speech-bubble">
+                    <div class="chat-container flex w-100 h-100">
+                        <p id="chat-output"></p>
+                    </div>
+                </div>
 
-    <div class="flex flex-row w-100">
-        <div id="chat-container" class="flex-1">
-        </div>
+                <img id="cat-img" src="sprites/calm.png" class="object-contain mb-64 min-h-64 min-w-64 max-h-64 max-w-64">
+            </div>
 
+            <div class="border-2 rounded mb-16">
+                <input type="text" id="input" class="p-4">
+                <button type="submit" id="submit" class="p-4 border-l-2">Submit</button>
+            </div>
+        </section>
+    <!--Right section-->
+        <section class="flex w-50 justify-center">
+            <details class="w-64" id="chat-history">
+                <summary>Chat History</summary>
+            </details>
+        </section>
     </div>
 </body>
 </html>

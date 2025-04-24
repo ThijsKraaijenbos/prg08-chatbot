@@ -1,3 +1,50 @@
+html, body {
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.speech-bubble:before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border: 2.3em solid transparent;
+    border-top-color: #e5e7eb;
+    border-bottom: 0;
+    border-right: 0;
+    margin-left: -1.15em;
+    margin-bottom: -2.3em;
+}
+
+.speech-bubble {
+    position: relative;
+    background: #ffffff;
+    border-radius: .4em;
+    padding: 0.8em;
+    border: 0.15em solid #e5e7eb;
+}
+
+.speech-bubble:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border: 2em solid transparent;
+    border-top-color: #ffffff;
+    border-bottom: 0;
+    border-right: 0;
+    margin-left: -1em;
+    margin-bottom: -2em;
+}
+
+
+
+
+
 .fade-in {
     opacity: 0;
     animation: fadeIn 0.3s forwards;
