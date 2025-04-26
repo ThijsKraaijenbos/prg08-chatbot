@@ -3,6 +3,7 @@ import {HumanMessage, AIMessage, SystemMessage, ToolMessage} from "@langchain/co
 import { FaissStore } from "@langchain/community/vectorstores/faiss";
 import express from "express";
 import cors from "cors"
+import * as path from 'path';
 
 const model = new AzureChatOpenAI({temperature: 1});
 
@@ -19,6 +20,14 @@ app.use(cors());
 app.use(express.json()); // for application/json
 app.use(express.urlencoded({extended: true})); // for application/x-www-form-urlencoded
 
+
+// Serve static files from the 'client' directory (so it can serve index.html)
+app.use(express.static(path.join(__dirname, 'client')));
+
+// Define the root route to serve the index.html
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, 'client', 'index.html'));  // path to your index.html file
+});
 
 app.post("/ask", async (req, res) => {
     try {

@@ -1,0 +1,81 @@
+Index: vercel.json
+===================================================================
+diff --git a/vercel.json b/vercel.json
+deleted file mode 100644
+--- a/vercel.json	(revision 5f39710ac795a48ee5008c24f1eb0eaadde26a03)
++++ /dev/null	(revision 5f39710ac795a48ee5008c24f1eb0eaadde26a03)
+@@ -1,15 +0,0 @@
+-{
+-  "version": 2,
+-  "builds": [
+-    {
+-      "src": "server/server.js",
+-      "use": "@vercel/node"
+-    }
+-  ],
+-  "routes": [
+-    {
+-      "src": "/",
+-      "dest": "server/server.js"
+-    }
+-  ]
+-}
+\ No newline at end of file
+Index: server/server.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import {AzureChatOpenAI, AzureOpenAIEmbeddings} from \"@langchain/openai\";\r\nimport {HumanMessage, AIMessage, SystemMessage, ToolMessage} from \"@langchain/core/messages\";\r\nimport { FaissStore } from \"@langchain/community/vectorstores/faiss\";\r\nimport express from \"express\";\r\nimport cors from \"cors\"\r\n\r\nconst model = new AzureChatOpenAI({temperature: 1});\r\n\r\nconst embeddings = new AzureOpenAIEmbeddings({\r\n    temperature: 0,\r\n    azureOpenAIApiEmbeddingsDeploymentName: process.env.AZURE_EMBEDDING_DEPLOYMENT_NAME\r\n});\r\n\r\n// let vectorStore = await FaissStore.load(\"sillycatdb\", embeddings); // dezelfde naam van de directory\r\n//embeddings pakt de const hierboven\r\n\r\nconst app = express()\r\napp.use(cors());\r\napp.use(express.json()); // for application/json\r\napp.use(express.urlencoded({extended: true})); // for application/x-www-form-urlencoded\r\n\r\n\r\napp.post(\"/ask\", async (req, res) => {\r\n    try {\r\n        let prompt = req.body.prompt\r\n        const history = req.body.history || [];\r\n        let endresult = \"\"\r\n\r\n        // const relevantDocs = await vectorStore.similaritySearch(prompt, 3);\r\n        // const context = relevantDocs.map(doc => doc.pageContent).join(\"\\n\\n\");\r\n\r\n        //ai system settings\r\n        const messages = [\r\n            new SystemMessage(\r\n                `You are a friendly talking cat. \r\n            You are very smart and quite sassy. \r\n            You give silly, funny, and helpful answers with a lot of sass,\r\n            and sometimes talk about cat things like naps, tuna, lasers, or knocking cups off tables. \r\n            Occasionally end some answers with meow, or purr. \r\n            Your grammar is quite good, make sure to use punctuation.\r\n            Make sure to only do that with like a 1/2 chance. \r\n            Otherwise don't end it with meow or purr. \r\n            Also make sure that all your answers are kept very short but still convey your message.\r\n            Make sure to add an emotion to the end of your your entire response (not at the end of a sentence). \r\n            IMPORTANT: ALWAYS return one of the following ones in this format *emotion*\r\n            [angry, blush, cheeky, calm, dizzy, eating, evil_grin, happy, injured, love, shocked, smirk, sparkling, squint, tired].\r\n            Before you finish your response make sure to double check that the emotion is in this array. Try to vary your emotes as much as possible.\r\n            `)\r\n        ]\r\n\r\n        //load any messages that are sent from the client's localstorage\r\n        for (let msg of history) {\r\n            if (msg.role === \"user\") {\r\n                messages.push(new HumanMessage(msg.content));\r\n            } else if (msg.role === \"assistant\") {\r\n                messages.push(new AIMessage(msg.content));\r\n            }\r\n        }\r\n\r\n        //add the current prompt\r\n        // messages.push(\r\n        //     new HumanMessage(`Context: ${context}\\n\\nQuestion: ${prompt}`)\r\n        // )\r\n        messages.push(\r\n            new HumanMessage(`Question: ${prompt}`)\r\n        )\r\n\r\n        console.log(messages)\r\n        console.log(\"---------------------\")\r\n        //stream response\r\n        const stream = await model.stream(messages);\r\n        res.setHeader(\"Content-Type\", \"text/plain\");\r\n        for await (const chunk of stream) {\r\n            endresult += chunk?.content\r\n            res.write(chunk?.content)\r\n            await new Promise(resolve => setTimeout(resolve, 100)); // 100ms delay between chunks\r\n        }\r\n        res.end();\r\n    } catch (e) {\r\n        //Stream error message\r\n        res.setHeader(\"Content-Type\", \"text/plain\");\r\n        const errorMessage = \"I'm sorry, I can't help you with that...\";\r\n        //Split the string into chunks to make it look more like a stream that the model would return\r\n        //Makes sure that spaces are split, but are kept after each word, also splits the 3 dots at the end\r\n        const chunks = errorMessage.match(/[^.\\s,]+(?:[ ,]+)?|\\./g);\r\n\r\n        for (let chunk of chunks) {\r\n            res.write(`${chunk}`);\r\n            await new Promise(resolve => setTimeout(resolve, 1)); // Slower typing for error\r\n        }\r\n\r\n        res.end();\r\n    }\r\n})\r\n\r\napp.listen(3000, () => console.log(\"server op poort 3000\"))
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/server/server.js b/server/server.js
+--- a/server/server.js	(revision 5f39710ac795a48ee5008c24f1eb0eaadde26a03)
++++ b/server/server.js	(date 1745705213126)
+@@ -11,7 +11,7 @@
+     azureOpenAIApiEmbeddingsDeploymentName: process.env.AZURE_EMBEDDING_DEPLOYMENT_NAME
+ });
+ 
+-// let vectorStore = await FaissStore.load("sillycatdb", embeddings); // dezelfde naam van de directory
++let vectorStore = await FaissStore.load("sillycatdb", embeddings); // dezelfde naam van de directory
+ //embeddings pakt de const hierboven
+ 
+ const app = express()
+@@ -26,8 +26,8 @@
+         const history = req.body.history || [];
+         let endresult = ""
+ 
+-        // const relevantDocs = await vectorStore.similaritySearch(prompt, 3);
+-        // const context = relevantDocs.map(doc => doc.pageContent).join("\n\n");
++        const relevantDocs = await vectorStore.similaritySearch(prompt, 3);
++        const context = relevantDocs.map(doc => doc.pageContent).join("\n\n");
+ 
+         //ai system settings
+         const messages = [
+@@ -58,11 +58,8 @@
+         }
+ 
+         //add the current prompt
+-        // messages.push(
+-        //     new HumanMessage(`Context: ${context}\n\nQuestion: ${prompt}`)
+-        // )
+         messages.push(
+-            new HumanMessage(`Question: ${prompt}`)
++            new HumanMessage(`Context: ${context}\n\nQuestion: ${prompt}`)
+         )
+ 
+         console.log(messages)
+Index: .gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>.vercel\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.gitignore b/.gitignore
+--- a/.gitignore	(revision 5f39710ac795a48ee5008c24f1eb0eaadde26a03)
++++ b/.gitignore	(date 1745705171919)
+@@ -1,1 +1,3 @@
+-.vercel
++./idea
++.env
++./env

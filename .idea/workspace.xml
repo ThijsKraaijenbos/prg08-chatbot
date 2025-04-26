@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="0446940e-e01c-4ed1-a7ea-bd4948e2b836" name="Changes" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings">
+    <execution />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+        <option value="CSS File" />
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;ThijsKraaijenbos&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/ThijsKraaijenbos/prg08-chatbot.git&quot;,
+    &quot;accountId&quot;: &quot;78380b67-176e-4758-9565-c1aa87185dff&quot;
+  }
+}</component>
+  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="C:\xampp\php\php.exe" />
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
+  <component name="ProjectId" id="2vidpUfELQQ2euzBixDNUjGkAPz" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
+    "Node.js.embedding.js.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "C:/Development-Jaar2/prg08-chatbot/client",
+    "list.type.of.created.stylesheet": "CSS",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "ts.external.directory.path": "C:\\Users\\Cosmo\\AppData\\Local\\Programs\\PhpStorm\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Development-Jaar2\prg08-chatbot\client" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Development-Jaar2\prg08-les6\server" />
+    </key>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-e768b9ed790e-JavaScript-PS-243.21565.202" />
+        <option value="bundled-php-predefined-a98d8de5180a-5fbe0c30323e-com.jetbrains.php.sharedIndexes-PS-243.21565.202" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="0446940e-e01c-4ed1-a7ea-bd4948e2b836" name="Changes" comment="" />
+      <created>1744632010803</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1744632010803</updated>
+      <workItem from="1744632011942" duration="164000" />
+      <workItem from="1744632236530" duration="6465000" />
+      <workItem from="1744713001366" duration="11447000" />
+      <workItem from="1744788812489" duration="9069000" />
+      <workItem from="1744829503491" duration="623000" />
+      <workItem from="1744910108832" duration="3012000" />
+      <workItem from="1744921345568" duration="10000" />
+      <workItem from="1745307777282" duration="199000" />
+      <workItem from="1745311784120" duration="439000" />
+      <workItem from="1745314779184" duration="1409000" />
+      <workItem from="1745316736009" duration="19000" />
+      <workItem from="1745510533096" duration="143000" />
+      <workItem from="1745510690094" duration="119000" />
+      <workItem from="1745510821084" duration="17259000" />
+      <workItem from="1745584374598" duration="2198000" />
+      <workItem from="1745606731452" duration="1813000" />
+      <workItem from="1745670668702" duration="29641000" />
+      <workItem from="1745707040042" duration="323000" />
+    </task>
+    <task id="LOCAL-00001" summary="Initial commit">
+      <option name="closed" value="true" />
+      <created>1745510876266</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1745510876266</updated>
+    </task>
+    <task id="LOCAL-00002" summary="add a bunch of random stuff">
+      <option name="closed" value="true" />
+      <created>1745535614020</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1745535614020</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Random commit before i change chat history dropdown handling">
+      <option name="closed" value="true" />
+      <created>1745677931273</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1745677931273</updated>
+    </task>
+    <task id="LOCAL-00004" summary=".">
+      <option name="closed" value="true" />
+      <created>1745683850019</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1745683850019</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Completely reworked chat history &amp; separate scripts for more organised work">
+      <option name="closed" value="true" />
+      <created>1745696862342</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1745696862342</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Fixed &quot;no messages&quot; text still showing after the first response is given in a conversation">
+      <option name="closed" value="true" />
+      <created>1745700456150</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1745700456150</updated>
+    </task>
+    <task id="LOCAL-00007" summary="node command change as test">
+      <option name="closed" value="true" />
+      <created>1745700806123</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1745700806123</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Add vercel config file for attempt at deployment">
+      <option name="closed" value="true" />
+      <created>1745701539629</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1745701539629</updated>
+    </task>
+    <task id="LOCAL-00009" summary="temp disable faisstore for testing (production error)">
+      <option name="closed" value="true" />
+      <created>1745702606568</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1745702606568</updated>
+    </task>
+    <task id="LOCAL-00010" summary="another vercel test">
+      <option name="closed" value="true" />
+      <created>1745703340377</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1745703340377</updated>
+    </task>
+    <task id="LOCAL-00011" summary="another vercel test">
+      <option name="closed" value="true" />
+      <created>1745703656146</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1745703656146</updated>
+    </task>
+    <task id="LOCAL-00012" summary="another vercel test">
+      <option name="closed" value="true" />
+      <created>1745703848408</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1745703848408</updated>
+    </task>
+    <task id="LOCAL-00013" summary="removed vercel stuff">
+      <option name="closed" value="true" />
+      <created>1745705260561</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1745705260561</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Initial commit" />
+    <MESSAGE value="add a bunch of random stuff" />
+    <MESSAGE value="Random commit before i change chat history dropdown handling" />
+    <MESSAGE value="." />
+    <MESSAGE value="Completely reworked chat history &amp; separate scripts for more organised work" />
+    <MESSAGE value="Fixed &quot;no messages&quot; text still showing after the first response is given in a conversation" />
+    <MESSAGE value="node command change as test" />
+    <MESSAGE value="Add vercel config file for attempt at deployment" />
+    <MESSAGE value="temp disable faisstore for testing (production error)" />
+    <MESSAGE value="another vercel test" />
+    <MESSAGE value="removed vercel stuff" />
+    <option name="LAST_COMMIT_MESSAGE" value="removed vercel stuff" />
+  </component>
+</project>
