@@ -11,7 +11,7 @@ const embeddings = new AzureOpenAIEmbeddings({
     azureOpenAIApiEmbeddingsDeploymentName: process.env.AZURE_EMBEDDING_DEPLOYMENT_NAME
 });
 
-// let vectorStore = await FaissStore.load("sillycatdb", embeddings); // dezelfde naam van de directory
+let vectorStore = await FaissStore.load("sillycatdb", embeddings); // dezelfde naam van de directory
 //embeddings pakt de const hierboven
 
 const app = express()
@@ -26,8 +26,8 @@ app.post("/ask", async (req, res) => {
         const history = req.body.history || [];
         let endresult = ""
 
-        // const relevantDocs = await vectorStore.similaritySearch(prompt, 3);
-        // const context = relevantDocs.map(doc => doc.pageContent).join("\n\n");
+        const relevantDocs = await vectorStore.similaritySearch(prompt, 3);
+        const context = relevantDocs.map(doc => doc.pageContent).join("\n\n");
 
         //ai system settings
         const messages = [
@@ -58,11 +58,8 @@ app.post("/ask", async (req, res) => {
         }
 
         //add the current prompt
-        // messages.push(
-        //     new HumanMessage(`Context: ${context}\n\nQuestion: ${prompt}`)
-        // )
         messages.push(
-            new HumanMessage(`Question: ${prompt}`)
+            new HumanMessage(`Context: ${context}\n\nQuestion: ${prompt}`)
         )
 
         console.log(messages)
