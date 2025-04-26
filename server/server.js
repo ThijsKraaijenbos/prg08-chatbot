@@ -1,9 +1,16 @@
-import {AzureChatOpenAI, AzureOpenAIEmbeddings} from "@langchain/openai";
-import {HumanMessage, AIMessage, SystemMessage, ToolMessage} from "@langchain/core/messages";
-import { FaissStore } from "@langchain/community/vectorstores/faiss";
 import express from "express";
-import cors from "cors"
+import cors from "cors";
+import { AzureChatOpenAI, AzureOpenAIEmbeddings } from "@langchain/openai";
+import { HumanMessage, AIMessage, SystemMessage, ToolMessage } from "@langchain/core/messages";
+import { FaissStore } from "@langchain/community/vectorstores/faiss";
 import * as path from 'path';
+import { fileURLToPath } from 'url';
+
+// recreate __dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// your existing code continues...
 
 const model = new AzureChatOpenAI({temperature: 1});
 
