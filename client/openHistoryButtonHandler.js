@@ -21,6 +21,7 @@ function openHistoryButtonHandler(e) {
         //Check for empty local storage beforehand
         if (localStorageHistory === "") {
             const chatHistoryElement = document.createElement("p")
+            chatHistoryElement.id = "nomessages"
             chatHistoryElement.className = "mb-4"
             chatHistoryElement.innerText = "No message history found. Talk to the cat, he won't bite!"
             chatHistory.appendChild(chatHistoryElement)
@@ -55,8 +56,13 @@ function renderHistoryElements(msgHistory) {
 
 //function to update history if a new message is added while it's open
 export function updateHistory(newMessages) {
+    const noMessages = document.getElementById("nomessages")
     if (!historyOpen) {
         return
+    }
+    //If the nomessages error is still up, remove it
+    if (noMessages) {
+        document.remove("noMessages")
     }
     renderHistoryElements(newMessages)
 
