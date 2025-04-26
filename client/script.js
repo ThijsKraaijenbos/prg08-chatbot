@@ -37,7 +37,7 @@ const submit = async () => {
 
     //Send request to server to get a response from the AI
     try {
-        const response = await fetch("http://localhost:3000/ask", {
+        const response = await fetch("/ask", {
             method: "POST",
             mode: 'cors',
             headers: {
