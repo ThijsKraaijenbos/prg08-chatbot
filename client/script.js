@@ -1,4 +1,5 @@
 let inputLocked = false
+const chatHistory = document.getElementById("chat-history")
 
 const submit = async () => {
     if (inputLocked) {
@@ -8,9 +9,40 @@ const submit = async () => {
     const speechBubble = document.getElementById("speech-bubble")
     const inputVal = document.getElementById("input").value;
     const output = document.getElementById("chat-output");
-    const chatHistory = document.getElementById("chat-history")
     const img = document.getElementById("cat-img")
+    let messageHistory = []
 
+    //Get any potentially existing messages from previous chats
+    const localStorageHistory = JSON.parse(localStorage.getItem("chat-history")) ?? ""
+    for (let msg of localStorageHistory) {
+        if (msg.role === "user") {
+            messageHistory.push({
+                role: "user",
+                content: msg.content
+            })
+            const chatHistoryInput = document.createElement("p")
+            chatHistoryInput.innerText = `You: ${msg.content}`
+            chatHistory.appendChild(chatHistoryInput)
+
+        } else if (msg.role === "assistant") {
+            messageHistory.push({
+                role: "assistant",
+                content: msg.content
+            });
+            const chatHistoryOutput = document.createElement("p")
+            chatHistoryOutput.innerText = `You: ${msg.content}`
+            chatHistory.appendChild(chatHistoryOutput)
+        }
+    }
+    //Add user input to message history
+    messageHistory.push({
+        role: "user",
+        content: inputVal
+    })
+    console.log("History")
+    console.log(messageHistory)
+
+    //Send request to server to get a response from the AI
     try {
         const response = await fetch("http://localhost:3000/ask", {
             method: "POST",
@@ -18,7 +50,10 @@ const submit = async () => {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ prompt: inputVal }),
+            body: JSON.stringify({
+                prompt: inputVal,
+                history: messageHistory
+            }),
         });
 
         const reader = response.body.getReader();
@@ -34,7 +69,7 @@ const submit = async () => {
             } else if (img.src.match("sprites/talking.png") ) {
                 img.src = "sprites/calm.png"
             }
-        }, 97)
+        }, 95)
 
         const talkSound = setInterval(() => {
             audioPlay()
@@ -50,6 +85,7 @@ const submit = async () => {
             const newTextSpan = document.createElement("span");
             newTextSpan.className = "fade-in";
             newTextSpan.innerText = streamText;
+            output.scrollTop = output.scrollHeight;
 
 
             output.appendChild(newTextSpan);  // Append the new span
@@ -57,28 +93,40 @@ const submit = async () => {
                 speechBubble.classList.remove("invisible")
             }
         }
+
+        //Update everything related to a finished output
         output.textContent = totalText;
         clearInterval(talkAnim)
         clearInterval(talkSound)
-        img.src = "sprites/calm.png"
+        messageHistory.push({
+            role: "assistant",
+            content: totalText
+        })
+        localStorage.setItem("chat-history", JSON.stringify(messageHistory))
 
 
+        //Update emotion sprite of the cat based on the emotion provided in the output text
+        //in the *asterisks*
         const emotionMatch = totalText.match(/\*(angry|blush|cheeky|calm|dizzy|eating|evil grin|happy|injured|love|shocked|smirk|sparkling|squint|tired)\*$/);
         if (emotionMatch) {
             const emotion = emotionMatch[1];
             img.src = `sprites/${emotion}.png`
+        } else {
+            //Failsafe default emoji in case the AI decides to be dumb and not return one of
+            //the specified emojis, because it does that sometimes.
+            img.src = "sprites/calm.png"
         }
 
 
         //Add messages to chat history
-        const chatHistoryInput = document.createElement("p")
-        const chatHistoryOutput = document.createElement("p")
-
-        chatHistoryInput.innerText = `You: ${inputVal}`
-        chatHistoryOutput.innerText = `Cat: ${totalText}`
-
-        chatHistory.appendChild(chatHistoryInput)
-        chatHistory.appendChild(chatHistoryOutput)
+        // const chatHistoryInput = document.createElement("p")
+        // const chatHistoryOutput = document.createElement("p")
+        //
+        // chatHistoryInput.innerText = `You: ${inputVal}`
+        // chatHistoryOutput.innerText = `Cat: ${totalText}`
+        //
+        // chatHistory.appendChild(chatHistoryInput)
+        // chatHistory.appendChild(chatHistoryOutput)
 
         inputLocked = false;
 
@@ -86,6 +134,10 @@ const submit = async () => {
         console.log(e);
     }
 };
+
+function toggleChatHistory() {
+
+}
 
 function audioPlay() {
     let audio = new Audio('audio/cat-meow.mp3');

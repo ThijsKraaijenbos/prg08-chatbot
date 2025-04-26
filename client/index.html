@@ -12,15 +12,15 @@
     <div class="grid grid-cols-3 h-full mt-6">
 <!--Middle section -->
         <section class="col-start-2 flex flex-col items-center justify-end">
-            <div class="h-64 flex justify-center items-center flex-col">
-                <div class="speech-bubble w-100 invisible" id="speech-bubble">
-                    <div class="chat-container flex w-100 h-100">
-                        <p id="chat-output"></p>
+                <div class="h-64 mb-32 flex justify-end items-center flex-col">
+                    <div class="speech-bubble w-100 invisible" id="speech-bubble">
+                        <div class="chat-container flex w-100 h-100">
+                            <p id="chat-output" class="max-h-32 overflow-auto"></p>
+                        </div>
                     </div>
-                </div>
 
-                <img id="cat-img" src="sprites/calm.png" class="object-contain mb-64 min-h-64 min-w-64 max-h-64 max-w-64">
-            </div>
+                    <img id="cat-img" src="sprites/calm.png" class="object-contain min-h-64 min-w-64 max-h-64 max-w-64">
+                </div>
 
             <div class="border-2 rounded mb-16">
                 <input type="text" id="input" class="p-4">
@@ -28,11 +28,17 @@
             </div>
         </section>
     <!--Right section-->
-        <section class="flex w-50 justify-center">
-            <details class="w-64" id="chat-history">
-                <summary>Chat History</summary>
-            </details>
-        </section>
+<!--        <section class="flex w-50 justify-center">-->
+<!--            <details class="w-64" id="chat-history">-->
+<!--                <summary>Chat History</summary>-->
+<!--            </details>-->
+<!--        </section>-->
+
+            <section id="chat-history" class="flex w-50 justify-center">
+                <button class="w-64">
+                    Chat History
+                </button>
+            </section>
     </div>
 </body>
 </html>
