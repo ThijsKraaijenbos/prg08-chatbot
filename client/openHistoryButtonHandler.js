@@ -3,7 +3,7 @@ const chatHistory = document.getElementById("chat-history")
 const historyButton = document.getElementById("history-button")
 historyButton.addEventListener("click", openHistoryButtonHandler)
 
-export default function openHistoryButtonHandler(e) {
+function openHistoryButtonHandler(e) {
     historyOpen = !historyOpen
     if (!historyOpen) {
         let child = chatHistory.lastElementChild;
@@ -18,24 +18,48 @@ export default function openHistoryButtonHandler(e) {
         const localStorageHistory = JSON.parse(localStorage.getItem("chat-history")) ?? ""
         e.target.innerText = "Chat History ⯆"
 
-        for (let msg of localStorageHistory) {
-            //Change the role to You, or Cat based on if it's "user" or "assistant"
-            let role
-            let nameColor
-            let mb
-            if (msg.role === "user") {
-                role = "You"
-                nameColor = "blue-300"
-            } else if (msg.role === "assistant") {
-                role = "Cat"
-                nameColor = "gray-600"
-                mb = "4"
-            }
-
-            const chatHistoryInput = document.createElement("p")
-            mb ? chatHistoryInput.className = `mb-${mb}` : ""
-            chatHistoryInput.innerHTML = `<span class="text-${nameColor} font-bold">${role}</span>: ${msg.content}`
-            chatHistory.appendChild(chatHistoryInput)
+        //Check for empty local storage beforehand
+        if (localStorageHistory === "") {
+            const chatHistoryElement = document.createElement("p")
+            chatHistoryElement.className = "mb-4"
+            chatHistoryElement.innerText = "No message history found. Talk to the cat, he won't bite!"
+            chatHistory.appendChild(chatHistoryElement)
+            return
         }
+
+        //Add all chat history messages
+        renderHistoryElements(localStorageHistory)
     }
+}
+
+function renderHistoryElements(msgHistory) {
+    for (let msg of msgHistory) {
+        const chatHistoryElement = document.createElement("p")
+
+        //Change the role to You, or Cat based on if it's "user" or "assistant"
+        let role
+        let nameColor
+        if (msg.role === "user") {
+            role = "You"
+            nameColor = "blue-300"
+        } else if (msg.role === "assistant") {
+            role = "Cat"
+            nameColor = "gray-600"
+            chatHistoryElement.className = `mb-4`
+        }
+
+        chatHistoryElement.innerHTML = `<span class="text-${nameColor} font-bold">${role}</span>: ${msg.content}`
+        chatHistory.appendChild(chatHistoryElement)
+    }
+}
+
+//function to update history if a new message is added while it's open
+export function updateHistory(newMessages) {
+    if (!historyOpen) {
+        return
+    }
+    renderHistoryElements(newMessages)
+
+    const output = document.getElementById("chat-history");
+    output.scrollTop = output.scrollHeight;
 }

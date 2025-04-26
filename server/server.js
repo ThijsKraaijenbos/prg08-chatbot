@@ -21,62 +21,73 @@ app.use(express.urlencoded({extended: true})); // for application/x-www-form-url
 
 
 app.post("/ask", async (req, res) => {
-    let prompt = req.body.prompt
-    const history = req.body.history || [];
-    let endresult = ""
+    try {
+        let prompt = req.body.prompt
+        const history = req.body.history || [];
+        let endresult = ""
 
-    const relevantDocs = await vectorStore.similaritySearch(prompt,3);
-    const context = relevantDocs.map(doc => doc.pageContent).join("\n\n");
+        const relevantDocs = await vectorStore.similaritySearch(prompt, 3);
+        const context = relevantDocs.map(doc => doc.pageContent).join("\n\n");
 
-    //ai system settings
-    const messages = [
-        new SystemMessage(
-            `You are a friendly talking cat. 
-        You are very smart and quite sassy. 
-        You give silly, funny, and helpful answers with a lot of sass,
-        and sometimes talk about cat things like naps, tuna, lasers, or knocking cups off tables. 
-        Occasionally end some answers with meow, or purr. 
-        Your grammar is quite good, make sure to use punctuation.
-        Make sure to only do that with like a 1/2 chance. 
-        Otherwise don't end it with meow or purr. 
-        Also make sure that all your answers are kept very short but still convey your message.
-        Make sure to add an emotion to the end of your your entire response (not at the end of a sentence). 
-        IMPORTANT: ALWAYS return one of the following ones in this format *emotion*
-        [angry, blush, cheeky, calm, dizzy, eating, evil_grin, happy, injured, love, shocked, smirk, sparkling, squint, tired].
-        Before you finish your response make sure to double check that the emotion is in this array. Try to vary your emotes as much as possible.
-        `)
-    ]
+        //ai system settings
+        const messages = [
+            new SystemMessage(
+                `You are a friendly talking cat. 
+            You are very smart and quite sassy. 
+            You give silly, funny, and helpful answers with a lot of sass,
+            and sometimes talk about cat things like naps, tuna, lasers, or knocking cups off tables. 
+            Occasionally end some answers with meow, or purr. 
+            Your grammar is quite good, make sure to use punctuation.
+            Make sure to only do that with like a 1/2 chance. 
+            Otherwise don't end it with meow or purr. 
+            Also make sure that all your answers are kept very short but still convey your message.
+            Make sure to add an emotion to the end of your your entire response (not at the end of a sentence). 
+            IMPORTANT: ALWAYS return one of the following ones in this format *emotion*
+            [angry, blush, cheeky, calm, dizzy, eating, evil_grin, happy, injured, love, shocked, smirk, sparkling, squint, tired].
+            Before you finish your response make sure to double check that the emotion is in this array. Try to vary your emotes as much as possible.
+            `)
+        ]
 
-    //load any messages that are sent from the client's localstorage
-    for (let msg of history) {
-        if (msg.role === "user") {
-            messages.push(new HumanMessage(msg.content));
-        } else if (msg.role === "assistant") {
-            messages.push(new AIMessage(msg.content));
+        //load any messages that are sent from the client's localstorage
+        for (let msg of history) {
+            if (msg.role === "user") {
+                messages.push(new HumanMessage(msg.content));
+            } else if (msg.role === "assistant") {
+                messages.push(new AIMessage(msg.content));
+            }
         }
+
+        //add the current prompt
+        messages.push(
+            new HumanMessage(`Context: ${context}\n\nQuestion: ${prompt}`)
+        )
+
+        console.log(messages)
+        console.log("---------------------")
+        //stream response
+        const stream = await model.stream(messages);
+        res.setHeader("Content-Type", "text/plain");
+        for await (const chunk of stream) {
+            endresult += chunk?.content
+            res.write(chunk?.content)
+            await new Promise(resolve => setTimeout(resolve, 100)); // 100ms delay between chunks
+        }
+        res.end();
+    } catch (e) {
+        //Stream error message
+        res.setHeader("Content-Type", "text/plain");
+        const errorMessage = "I'm sorry, I can't help you with that...";
+        //Split the string into chunks to make it look more like a stream that the model would return
+        //Makes sure that spaces are split, but are kept after each word, also splits the 3 dots at the end
+        const chunks = errorMessage.match(/[^.\s,]+(?:[ ,]+)?|\./g);
+
+        for (let chunk of chunks) {
+            res.write(`${chunk}`);
+            await new Promise(resolve => setTimeout(resolve, 1)); // Slower typing for error
+        }
+
+        res.end();
     }
-
-    //add the current prompt
-    messages.push(
-        new HumanMessage(`Context: ${context}\n\nQuestion: ${prompt}`)
-    )
-
-    console.log(messages)
-    console.log("---------------------")
-    //stream response
-    const stream = await model.stream(messages);
-    res.setHeader("Content-Type", "text/plain");
-    for await (const chunk of stream) {
-        endresult += chunk?.content
-        res.write(chunk?.content)
-        await new Promise(resolve => setTimeout(resolve, 100)); // 100ms delay between chunks
-    }
-    res.end();
-
-    //when streaming is finished, add new AImessage response to the messages array
-    // messages.push(
-    //     new AIMessage(endresult)
-    // )
 })
 
 app.listen(3000, () => console.log("server op poort 3000"))

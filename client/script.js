@@ -1,8 +1,8 @@
-import toggleChatHistory from "./openHistoryButtonHandler"
+import "./ClearHistoryButtonHandler.js";
+import { updateHistory } from "./openHistoryButtonHandler.js";
+
 
 let inputLocked = false
-
-
 const submit = async () => {
     if (inputLocked) {
         return
@@ -34,8 +34,6 @@ const submit = async () => {
         role: "user",
         content: inputVal
     })
-    console.log("History")
-    console.log(messageHistory)
 
     //Send request to server to get a response from the AI
     try {
@@ -51,14 +49,21 @@ const submit = async () => {
             }),
         });
 
-        const reader = response.body.getReader();
+        let data = response.body
+
+        if (!response.ok) {
+            const errorText = await response.json();
+            data = errorText
+            console.log(errorText.error)
+        }
+
+        const reader = data.getReader();
         const decoder = new TextDecoder();
         let totalText = "";
 
         output.innerHTML = "";
         // Read the stream chunk by chunk
         const talkAnim = setInterval(() => {
-            console.log(img.src)
             if (!img.src.match("sprites/talking.png") ) {
                 img.src = "sprites/talking.png"
             } else if (img.src.match("sprites/talking.png") ) {
@@ -79,7 +84,7 @@ const submit = async () => {
 
             const newTextSpan = document.createElement("span");
             newTextSpan.className = "fade-in";
-            newTextSpan.innerText = streamText;
+            newTextSpan.textContent = streamText;
             output.scrollTop = output.scrollHeight;
 
 
@@ -99,6 +104,13 @@ const submit = async () => {
         })
         localStorage.setItem("chat-history", JSON.stringify(messageHistory))
 
+        //Call update history and pass the latest 2 messages (#1 from user and #2 from bot)
+        updateHistory([
+            messageHistory[messageHistory.length-2],
+            messageHistory[messageHistory.length-1]
+        ])
+
+
 
         //Update emotion sprite of the cat based on the emotion provided in the output text
         //in the *asterisks*
@@ -111,17 +123,6 @@ const submit = async () => {
             //the specified emojis, because it does that sometimes.
             img.src = "sprites/calm.png"
         }
-
-
-        //Add messages to chat history
-        // const chatHistoryInput = document.createElement("p")
-        // const chatHistoryOutput = document.createElement("p")
-        //
-        // chatHistoryInput.innerText = `You: ${inputVal}`
-        // chatHistoryOutput.innerText = `Cat: ${totalText}`
-        //
-        // chatHistory.appendChild(chatHistoryInput)
-        // chatHistory.appendChild(chatHistoryOutput)
 
         inputLocked = false;
 
