@@ -1,5 +1,7 @@
+import toggleChatHistory from "./openHistoryButtonHandler"
+
 let inputLocked = false
-const chatHistory = document.getElementById("chat-history")
+
 
 const submit = async () => {
     if (inputLocked) {
@@ -19,19 +21,12 @@ const submit = async () => {
             messageHistory.push({
                 role: "user",
                 content: msg.content
-            })
-            const chatHistoryInput = document.createElement("p")
-            chatHistoryInput.innerText = `You: ${msg.content}`
-            chatHistory.appendChild(chatHistoryInput)
-
+            });
         } else if (msg.role === "assistant") {
             messageHistory.push({
                 role: "assistant",
                 content: msg.content
             });
-            const chatHistoryOutput = document.createElement("p")
-            chatHistoryOutput.innerText = `You: ${msg.content}`
-            chatHistory.appendChild(chatHistoryOutput)
         }
     }
     //Add user input to message history
@@ -134,10 +129,6 @@ const submit = async () => {
         console.log(e);
     }
 };
-
-function toggleChatHistory() {
-
-}
 
 function audioPlay() {
     let audio = new Audio('audio/cat-meow.mp3');

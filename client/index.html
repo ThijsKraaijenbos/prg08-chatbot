@@ -9,9 +9,9 @@
 
 </head>
 <body>
-    <div class="grid grid-cols-3 h-full mt-6">
+    <div class="grid grid-cols-3 h-[90%]">
 <!--Middle section -->
-        <section class="col-start-2 flex flex-col items-center justify-end">
+        <section class="col-start-2 flex flex-col items-center justify-start mt-52">
                 <div class="h-64 mb-32 flex justify-end items-center flex-col">
                     <div class="speech-bubble w-100 invisible" id="speech-bubble">
                         <div class="chat-container flex w-100 h-100">
@@ -22,22 +22,23 @@
                     <img id="cat-img" src="sprites/calm.png" class="object-contain min-h-64 min-w-64 max-h-64 max-w-64">
                 </div>
 
-            <div class="border-2 rounded mb-16">
+            <div class="border-2 rounded">
                 <input type="text" id="input" class="p-4">
-                <button type="submit" id="submit" class="p-4 border-l-2">Submit</button>
+                <button id="submit" class="p-4 border-l-2">Submit</button>
             </div>
+
         </section>
     <!--Right section-->
-<!--        <section class="flex w-50 justify-center">-->
-<!--            <details class="w-64" id="chat-history">-->
-<!--                <summary>Chat History</summary>-->
-<!--            </details>-->
-<!--        </section>-->
+            <section class="flex flex-col max-w-[90%] items-start mt-2">
+                <div id="chat-history-container" class="border-2 relative rounded flex flex-col max-h-[90vh]">
+                    <button id="history-button" class="sticky top-0 bg-white z-10 min-w-32 p-2">
+                        Chat History ⏵
+                    </button>
+                    <div class="pl-2 pr-2 overflow-auto" id="chat-history">
+                    </div>
+                </div>
+                <button id="clear-button" class="p-2 border-2 border-red-300 rounded bg-red-100">Clear Chat History</button>
 
-            <section id="chat-history" class="flex w-50 justify-center">
-                <button class="w-64">
-                    Chat History
-                </button>
             </section>
     </div>
 </body>
