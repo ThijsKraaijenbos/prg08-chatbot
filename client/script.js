@@ -64,10 +64,10 @@ const submit = async () => {
         output.innerHTML = "";
         // Read the stream chunk by chunk
         const talkAnim = setInterval(() => {
-            if (!img.src.match("sprites/talking.png") ) {
-                img.src = "sprites/talking.png"
-            } else if (img.src.match("sprites/talking.png") ) {
-                img.src = "sprites/calm.png"
+            if (!img.src.match("./sprites/talking.png") ) {
+                img.src = "./sprites/talking.png"
+            } else if (img.src.match("./sprites/talking.png") ) {
+                img.src = "./sprites/calm.png"
             }
         }, 95)
 
@@ -117,11 +117,11 @@ const submit = async () => {
         const emotionMatch = totalText.match(/\*(angry|blush|cheeky|calm|dizzy|eating|evil grin|happy|injured|love|shocked|smirk|sparkling|squint|tired)\*$/);
         if (emotionMatch) {
             const emotion = emotionMatch[1];
-            img.src = `sprites/${emotion}.png`
+            img.src = `./sprites/${emotion}.png`
         } else {
             //Failsafe default emoji in case the AI decides to be dumb and not return one of
             //the specified emojis, because it does that sometimes.
-            img.src = "sprites/calm.png"
+            img.src = "./sprites/calm.png"
         }
 
         inputLocked = false;
@@ -132,7 +132,7 @@ const submit = async () => {
 };
 
 function audioPlay() {
-    let audio = new Audio('audio/cat-meow.mp3');
+    let audio = new Audio('./audio/cat-meow.mp3');
     audio.play()
 }
 
