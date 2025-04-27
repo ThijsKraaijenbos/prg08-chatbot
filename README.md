@@ -6,7 +6,7 @@
 `cd server` <br>
 `npm install` <br>
 
-Then you'll need to create an ENV file in the /server directory with the following variables.<br>
+Then you'll need to create an ENV file in the `/server` directory with the following variables.<br>
 
 ```
 AZURE_OPENAI_API_VERSION
@@ -19,7 +19,7 @@ AZURE_OPENAI_API_EMBEDDINGS_DEPLOYMENT_NAME
 Because this is an ENV file, it obviously contains sensitive information such as an API key.
 Therefor you should create one yourself, and insert your own values.
 
-After you've done that, run the following command in the terminal (make sure you're still in the /server directory!)<br>
+After you've done that, run the following command in the terminal (make sure you're still in the `/server` directory!)<br>
 `npm run env` 
 
 
