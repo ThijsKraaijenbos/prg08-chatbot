@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="0446940e-e01c-4ed1-a7ea-bd4948e2b836" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/script.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/server.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -110,7 +110,7 @@
       <workItem from="1745584374598" duration="2198000" />
       <workItem from="1745606731452" duration="1813000" />
       <workItem from="1745670668702" duration="29641000" />
-      <workItem from="1745707040042" duration="7357000" />
+      <workItem from="1745707040042" duration="16054000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <option name="closed" value="true" />
@@ -248,7 +248,23 @@
       <option name="project" value="LOCAL" />
       <updated>1745710522287</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="File locations updated (hopefully work on server now)">
+      <option name="closed" value="true" />
+      <created>1745714675828</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1745714675828</updated>
+    </task>
+    <task id="LOCAL-00019" summary="test another potential fix for VPS">
+      <option name="closed" value="true" />
+      <created>1745722948638</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1745722948638</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -280,6 +296,8 @@
     <MESSAGE value="add default / route in attempt to fix a production server issue" />
     <MESSAGE value="another attempt to fix / route" />
     <MESSAGE value="Fix to fetch (switched out localhost URL to only /ask)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix to fetch (switched out localhost URL to only /ask)" />
+    <MESSAGE value="File locations updated (hopefully work on server now)" />
+    <MESSAGE value="test another potential fix for VPS" />
+    <option name="LAST_COMMIT_MESSAGE" value="test another potential fix for VPS" />
   </component>
 </project>
