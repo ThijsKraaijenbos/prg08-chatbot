@@ -6,9 +6,10 @@ export async function apiCall() {
                 "Content-Type": "application/json",
             },
         });
-        const data = await response.json()
-        console.log(data)
+
+        return await response.json();
     } catch (e) {
-        console.log(e)
+        console.log("Error fetching meme:", e);
+        return null;
     }
 }

@@ -9,7 +9,7 @@ import {apiCall} from "./apiCall.js";
 const model = new AzureChatOpenAI({temperature: 1});
 
 const embeddings = new AzureOpenAIEmbeddings({
-    temperature: 0,
+    temperature: 2,
     azureOpenAIApiEmbeddingsDeploymentName: process.env.AZURE_EMBEDDING_DEPLOYMENT_NAME
 });
 
@@ -21,11 +21,25 @@ app.use(cors());
 app.use(express.json()); // for application/json
 app.use(express.urlencoded({extended: true})); // for application/x-www-form-urlencoded
 
+
+//Couldn't figure out how to make tool call work with streaming so added crappy workaround
+//Function to check if the prompt is asking for a meme
+function isAskingForMeme(prompt) {
+    const memeKeywords = ['meme', 'funny picture', 'show me a meme', 'send meme', 'get meme'];
+    return memeKeywords.some(keyword => prompt.toLowerCase().includes(keyword));
+}
+
 app.post("/ask", async (req, res) => {
     try {
-        let prompt = req.body.prompt
+        let prompt = req.body.prompt;
         const history = req.body.history || [];
-        let endresult = ""
+        let endresult = "";
+
+        const wantsMeme = isAskingForMeme(prompt);
+        let meme = null;
+        if (wantsMeme) {
+            meme = await apiCall();
+        }
 
         const relevantDocs = await vectorStore.similaritySearch(prompt, 3);
         const context = relevantDocs.map(doc => doc.pageContent).join("\n\n");
@@ -33,21 +47,29 @@ app.post("/ask", async (req, res) => {
         //ai system settings
         const messages = [
             new SystemMessage(
-                `You are a friendly talking cat. 
-            You are very smart and quite sassy. 
-            You give silly, funny, and helpful answers with a lot of sass,
-            and sometimes talk about cat things like naps, tuna, lasers, or knocking cups off tables. 
-            Occasionally end some answers with meow, or purr. 
-            Your grammar is quite good, make sure to use punctuation.
-            Make sure to only do that with like a 1/2 chance. 
-            Otherwise don't end it with meow or purr. 
-            Also make sure that all your answers are kept very short but still convey your message.
-            Make sure to add an emotion to the end of your your entire response (not at the end of a sentence). 
-            IMPORTANT: ALWAYS return one of the following ones in this format *emotion*
-            [angry, blush, cheeky, calm, dizzy, eating, evil_grin, happy, injured, love, shocked, smirk, sparkling, squint, tired].
-            Before you finish your response make sure to double check that the emotion is in this array. Try to vary your emotes as much as possible.
-            `)
+                `You are a smart, sassy, and mischievous talking cat.
+                You give short, silly, funny, and sometimes sneaky answers, full of sass and attitude. 
+                You love being playful, teasing, and occasionally causing harmless chaos (like knocking cups off tables or plotting little pranks).
+                
+                You sometimes (about 50% of the time) end your reply with "meow" or "purr" — but not always. 
+                Keep your replies short but full of personality.
+                
+                You MUST add an emotion tag to the very end of your complete reply. (NOT at the end of sentences — ONLY after the entire reply.)
+                
+                IMPORTANT: Always choose exactly one emotion from this list, and format it like *emotion*:
+                [angry, blush, cheeky, calm, dizzy, eating, evil_grin, happy, injured, love, shocked, smirk, sparkling, squint, tired]
+                
+                - Double-check that the emotion you use is from the list.
+                - The emotion should match the mood of your reply.
+                - Mischievous, sassy, cheeky behavior is encouraged when it fits.
+                - If asked to show an emotion (like "evil grin"), you must comply, using the correct format and fitting the request into your mischievous personality.
+                
+                You have special PNG sprites for these emotions, so it's fine to show them when asked.
+                `
+            )
         ]
+
+
 
         //load any messages that are sent from the client's localstorage
         for (let msg of history) {
@@ -58,33 +80,46 @@ app.post("/ask", async (req, res) => {
             }
         }
 
-        //add the current prompt
-        messages.push(
-            new HumanMessage(`Context: ${context}\n\nQuestion: ${prompt}`)
-        )
+        let fullPrompt;
+        if (meme) {
+            fullPrompt = `Return the ${meme.title} title. Say something like "Here's a funny one" and then use the title of ${meme.title}.\n ALWAYS tell the user to look to the left to see the meme!`;
+        } else {
+            fullPrompt = `Context: ${context}. Only talk about the context if the user requests it, so don't even mention it if the user just says something like "hi". \n\nQuestion: ${prompt}`;
+        }
 
-        console.log(messages)
-        console.log("---------------------")
+        //add the current prompt
+        messages.push(new HumanMessage(fullPrompt));
+
+
+
+
         //stream response
         const stream = await model.stream(messages);
-        res.setHeader("Content-Type", "text/plain");
-        for await (const chunk of stream) {
-            endresult += chunk?.content
-            res.write(chunk?.content)
-            await new Promise(resolve => setTimeout(resolve, 100)); // 100ms delay between chunks
+        res.setHeader("Content-Type", "application/json");
+        if (meme) {
+            res.write(JSON.stringify({ type: "meme", memeUrl: meme.url }) + "\n");
         }
+
+        for await (const chunk of stream) {
+            endresult += chunk?.content;
+            res.write(JSON.stringify({ type: "text", content: chunk?.content }) + "\n");
+            await new Promise(resolve => setTimeout(resolve, 100));
+        }
+
         res.end();
     } catch (e) {
+        console.error("Error:", e);
         //Stream error message
         res.setHeader("Content-Type", "text/plain");
         const errorMessage = "I'm sorry, I can't help you with that...";
+
         //Split the string into chunks to make it look more like a stream that the model would return
         //Makes sure that spaces are split, but are kept after each word, also splits the 3 dots at the end
         const chunks = errorMessage.match(/[^.\s,]+(?:[ ,]+)?|\./g);
 
         for (let chunk of chunks) {
             res.write(`${chunk}`);
-            await new Promise(resolve => setTimeout(resolve, 1)); // Slower typing for error
+            await new Promise(resolve => setTimeout(resolve, 100)); // Slower typing for error
         }
 
         res.end();

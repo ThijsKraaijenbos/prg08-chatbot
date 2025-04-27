@@ -14,8 +14,6 @@ function clearHistory() {
             chatHistory.removeChild(child);
             child = chatHistory.lastElementChild;
         }
-
-
-    }
     alert("Cleared history!")
+    }
 }

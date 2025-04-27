@@ -37,7 +37,7 @@ const submit = async () => {
 
     //Send request to server to get a response from the AI
     try {
-        const response = await fetch("/ask", {
+        const response = await fetch("http://localhost:3000/ask", {
             method: "POST",
             mode: 'cors',
             headers: {
@@ -50,6 +50,13 @@ const submit = async () => {
         });
 
         let data = response.body
+        let meme = response.headers.get("X-Meme-Object") ?? "";
+        console.log(meme)
+
+        if (meme) {
+            const memeimg = document.getElementById("memeimg")
+            memeimg.src = meme.url
+        }
 
         if (!response.ok) {
             const errorText = await response.json();
@@ -77,20 +84,30 @@ const submit = async () => {
 
 
         while (true) {
-            const { done, value } = await reader.read();
-            if (done) break;
-            const streamText = decoder.decode(value, { stream: true });
-            totalText += streamText;
-
-            const newTextSpan = document.createElement("span");
-            newTextSpan.className = "fade-in";
-            newTextSpan.textContent = streamText;
-            output.scrollTop = output.scrollHeight;
-
-
-            output.appendChild(newTextSpan);  // Append the new span
             if (speechBubble.classList.contains("invisible")) {
                 speechBubble.classList.remove("invisible")
+            }
+            const { done, value } = await reader.read();
+            if (done) break;
+
+            const chunkText = decoder.decode(value, { stream: true });
+
+            const lines = chunkText.split("\n").filter(Boolean);
+            for (let line of lines) {
+                const parsed = JSON.parse(line);
+
+                if (parsed.type === "meme") {
+                    let memeUrl = parsed.memeUrl;
+                    console.log("Received meme:", memeUrl);
+                    document.getElementById("memeimg").src = memeUrl;
+
+                } else if (parsed.type === "text") {
+                    totalText += parsed.content;
+                    const newTextSpan = document.createElement("span");
+                    newTextSpan.className = "fade-in";
+                    newTextSpan.textContent = parsed.content;
+                    output.appendChild(newTextSpan);
+                }
             }
         }
 

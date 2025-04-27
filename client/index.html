@@ -10,8 +10,13 @@
 </head>
 <body>
     <div class="grid grid-cols-3 h-[90%]">
+<!--Left section for meme-->
+        <section class="flex flex-col items-center justify-start mt-52">
+            <img id="memeimg" src="" class="h-auto w-64">
+        </section>
+
 <!--Middle section -->
-        <section class="col-start-2 flex flex-col items-center justify-start mt-52">
+        <section class=" flex flex-col items-center justify-start mt-52">
                 <div class="h-64 mb-32 flex justify-end items-center flex-col">
                     <div class="speech-bubble w-100 invisible" id="speech-bubble">
                         <div class="chat-container flex w-100 h-100">
@@ -22,9 +27,9 @@
                     <img id="cat-img" src="sprites/calm.png" class="object-contain min-h-64 min-w-64 max-h-64 max-w-64">
                 </div>
 
-            <div class="border-2 rounded">
-                <input type="text" id="input" class="p-4">
-                <button id="submit" class="p-4 border-l-2">Submit</button>
+            <div class="flex flex-row border-2 w-full rounded">
+                <input type="text" id="input" class="p-4 w-full flex-3">
+                <button id="submit" class="p-4 border-l-2 flex-1">Submit</button>
             </div>
 
         </section>
