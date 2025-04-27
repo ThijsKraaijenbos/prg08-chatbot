@@ -1,5 +1,4 @@
 import { AzureChatOpenAI, AzureOpenAIEmbeddings } from "@langchain/openai";
-import { TextLoader } from "langchain/document_loaders/fs/text";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 import { FaissStore } from "@langchain/community/vectorstores/faiss";
 import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf"
@@ -28,17 +27,17 @@ async function createVectorstore() {
     console.log("vector store created")
 }
 
-async function askQuestion(prompt){
-    const relevantDocs = await vectorStore.similaritySearch(prompt,3);
-    const context = relevantDocs.map(doc => doc.pageContent).join("\n\n");
-    const response = await model.invoke([
-        ["system", "Use the following context to answer the user's question. Only use information from the context."],
-        ["user", `Context: ${context}\n\nQuestion: ${prompt}`]
-    ]);
-    console.log("\nAnswer found:");
-    console.log(response.content);
-}
+// async function askQuestion(prompt){
+//     const relevantDocs = await vectorStore.similaritySearch(prompt,3);
+//     const context = relevantDocs.map(doc => doc.pageContent).join("\n\n");
+//     const response = await model.invoke([
+//         ["system", "Use the following context to answer the user's question. Only use information from the context."],
+//         ["user", `Context: ${context}\n\nQuestion: ${prompt}`]
+//     ]);
+//     console.log("\nAnswer found:");
+//     console.log(response.content);
+// }
 
 
 await createVectorstore()
-await askQuestion("Give me the bullet points of the \"Development of play\" paragraph")
+// await askQuestion("Give me the bullet points of the \"Development of play\" paragraph")

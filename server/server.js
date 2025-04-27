@@ -12,7 +12,7 @@ const embeddings = new AzureOpenAIEmbeddings({
     azureOpenAIApiEmbeddingsDeploymentName: process.env.AZURE_EMBEDDING_DEPLOYMENT_NAME
 });
 
-let vectorStore = await FaissStore.load("sillycatdb", embeddings); // dezelfde naam van de directory
+let vectorStore = await FaissStore.load("cat-behavior-db", embeddings); // dezelfde naam van de directory
 //embeddings pakt de const hierboven
 
 const app = express()
