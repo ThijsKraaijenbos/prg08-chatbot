@@ -3,15 +3,8 @@ import cors from "cors";
 import { AzureChatOpenAI, AzureOpenAIEmbeddings } from "@langchain/openai";
 import { HumanMessage, AIMessage, SystemMessage, ToolMessage } from "@langchain/core/messages";
 import { FaissStore } from "@langchain/community/vectorstores/faiss";
-import * as path from 'path';
-import { fileURLToPath } from 'url';
-
-// recreate __dirname
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 // your existing code continues...
-
 const model = new AzureChatOpenAI({temperature: 1});
 
 const embeddings = new AzureOpenAIEmbeddings({
@@ -26,15 +19,6 @@ const app = express()
 app.use(cors());
 app.use(express.json()); // for application/json
 app.use(express.urlencoded({extended: true})); // for application/x-www-form-urlencoded
-
-
-// Serve static files from the 'client' directory (so it can serve index.html)
-app.use(express.static(path.join(__dirname, '../client')));
-
-// Define the root route to serve the index.html
-app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client', 'index.html'));  // path to your index.html file
-});
 
 app.post("/ask", async (req, res) => {
     try {
