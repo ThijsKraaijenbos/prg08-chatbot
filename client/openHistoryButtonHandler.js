@@ -4,7 +4,10 @@ const historyButton = document.getElementById("history-button")
 historyButton.addEventListener("click", openHistoryButtonHandler)
 
 function openHistoryButtonHandler(e) {
+    //Toggle history variable
     historyOpen = !historyOpen
+
+    //If historyOpen was just set to false, close the history
     if (!historyOpen) {
         let child = chatHistory.lastElementChild;
         e.target.innerHTML = "Chat History ⯈"
@@ -14,7 +17,9 @@ function openHistoryButtonHandler(e) {
             chatHistory.removeChild(child);
             child = chatHistory.lastElementChild;
         }
-    } else {
+    }
+    //Else open the history and load all history from localstorage
+    else {
         const localStorageHistory = JSON.parse(localStorage.getItem("chat-history")) ?? ""
         e.target.innerText = "Chat History ⯆"
 
@@ -49,6 +54,7 @@ function renderHistoryElements(msgHistory) {
             chatHistoryElement.className = `mb-4`
         }
 
+        //Create chat history element
         chatHistoryElement.innerHTML = `<span class="text-${nameColor} font-bold">${role}</span>: ${msg.content}`
         chatHistory.appendChild(chatHistoryElement)
     }
@@ -57,13 +63,19 @@ function renderHistoryElements(msgHistory) {
 //function to update history if a new message is added while it's open
 export function updateHistory(newMessages) {
     const noMessages = document.getElementById("nomessages")
+
+    //Skip entire function if the history is closed
     if (!historyOpen) {
         return
     }
+
     //If the nomessages error is still up, remove it
     if (noMessages) {
         document.remove("noMessages")
     }
+
+    //Load the history elements with the 2 new elements.
+    //Those 2 elements come from the function at script.js:128
     renderHistoryElements(newMessages)
 
     const output = document.getElementById("chat-history");

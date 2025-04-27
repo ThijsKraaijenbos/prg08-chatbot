@@ -55,3 +55,15 @@ html, body {
         opacity: 1;
     }
 }
+
+
+.fade-in-meme {
+    opacity: 0;
+    animation: fadeInMeme 1s forwards;
+}
+
+@keyframes fadeInMeme {
+    to {
+        opacity: 1;
+    }
+}

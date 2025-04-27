@@ -1,6 +1,7 @@
+//Api call to memes api
 export async function apiCall() {
     try {
-        const response = await fetch("https://meme-api.com/gimme", {
+        const response = await fetch("https://meme-api.com/gimme/catmemes", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
