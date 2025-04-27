@@ -1,8 +1,9 @@
 import express from "express";
 import cors from "cors";
 import { AzureChatOpenAI, AzureOpenAIEmbeddings } from "@langchain/openai";
-import { HumanMessage, AIMessage, SystemMessage, ToolMessage } from "@langchain/core/messages";
+import { HumanMessage, AIMessage, SystemMessage } from "@langchain/core/messages";
 import { FaissStore } from "@langchain/community/vectorstores/faiss";
+import {apiCall} from "./apiCall.js";
 
 // your existing code continues...
 const model = new AzureChatOpenAI({temperature: 1});
